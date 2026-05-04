@@ -2,7 +2,7 @@ import '../../entities/budget.dart';
 
 class BudgetModel {
   static Budget fromMap(Map<String, dynamic> map) {
-    // Handle null values for non-nullable fields to prevent errors
+
     final category = map['category'] ?? 'Other';
     final limit = map['limit'] ?? 0.0;
     final periodStartStr = map['periodStart'] ?? DateTime.now().toIso8601String();

@@ -95,7 +95,7 @@ class BudgetProvider with ChangeNotifier {
     }
   }
 
-  // Get budgets with their current spending status
+
   Future<List<Map<String, dynamic>>> getBudgetsWithStatus(DateTime start, DateTime end) async {
     final budgetsWithSpent = await getAllBudgetsWithSpent(start, end);
     final result = <Map<String, dynamic>>[];
@@ -117,7 +117,7 @@ class BudgetProvider with ChangeNotifier {
     return result;
   }
 
-  // Clear error state
+
   void clearError() {
     _error = null;
     notifyListeners();

@@ -59,7 +59,7 @@ class ProfessionalCard extends StatelessWidget {
                     ),
                     child: Icon(
                       icon,
-                      color: Colors.white,
+                      color: Colors.blueGrey,
                       size: 28,
                     ),
                   ),
@@ -70,7 +70,7 @@ class ProfessionalCard extends StatelessWidget {
                     title!,
                     style: TextStyle(
                       fontSize: 16,
-                      color: Colors.white.withValues(alpha: 204),
+                      color: Colors.black87.withValues(alpha: 204),
                       fontWeight: FontWeight.w500,
                     ),
                   ),
@@ -93,7 +93,7 @@ class ProfessionalCard extends StatelessWidget {
                           style: const TextStyle(
                             fontSize: 32,
                             fontWeight: FontWeight.w700,
-                            color: Colors.white,
+                            color: Colors.black87,
                             letterSpacing: 1,
                           ),
                         ),

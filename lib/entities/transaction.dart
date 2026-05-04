@@ -49,7 +49,6 @@ class Transaction extends Equatable {
   }
 
   factory Transaction.fromJson(Map<String, dynamic> json) {
-    // Handle null values for non-nullable fields to prevent errors
     final amount = json['amount'] ?? 0.0;
     final typeIndex = json['type'] ?? TransactionType.expense.index;
     final category = json['category'] ?? 'Other';

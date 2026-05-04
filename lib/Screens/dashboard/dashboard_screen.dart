@@ -4,11 +4,11 @@ import 'package:expense_manager__app/providers/transaction_provider.dart';
 import 'package:expense_manager__app/entities/transaction.dart';
 import 'package:expense_manager__app/widgets/professional_card.dart';
 import 'package:expense_manager__app/widgets/transaction_card.dart';
-import 'package:expense_manager__app/Screens/transaction/add_transaction_screen.dart';
+import 'package:expense_manager__app/screens/transaction/add_transaction_screen.dart';
 import 'package:expense_manager__app/screens/transaction/transactions_screen.dart';
-import 'package:expense_manager__app/Screens/analytics/analytics_screen.dart';
-import 'package:expense_manager__app/Screens/budget/budgets_screen.dart';
-import 'package:expense_manager__app/Screens/settings/settings_screen.dart';
+import 'package:expense_manager__app/screens/analytics/analytics_screen.dart';
+import 'package:expense_manager__app/screens/budget/budgets_screen.dart';
+import 'package:expense_manager__app/screens/settings/settings_screen.dart';
 
 class DashboardScreen extends StatefulWidget {
   const DashboardScreen({super.key});
@@ -35,7 +35,6 @@ class _DashboardScreenState extends State<DashboardScreen>
     );
     _animationController.forward();
 
-    // Load data after the first frame
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _loadData();
     });
@@ -48,8 +47,10 @@ class _DashboardScreenState extends State<DashboardScreen>
   }
 
   Future<void> _loadData() async {
-    final transactionProvider =
-        Provider.of<TransactionProvider>(context, listen: false);
+    final transactionProvider = Provider.of<TransactionProvider>(
+      context,
+      listen: false,
+    );
 
     await transactionProvider.loadTransactions();
 
@@ -69,7 +70,7 @@ class _DashboardScreenState extends State<DashboardScreen>
       extendBodyBehindAppBar: true,
       appBar: AppBar(
         title: const Text(
-          'Financial Dashboard',
+          'Dashboard',
           style: TextStyle(
             fontWeight: FontWeight.w700,
             fontSize: 24,
@@ -82,11 +83,11 @@ class _DashboardScreenState extends State<DashboardScreen>
           Container(
             margin: const EdgeInsets.only(right: 8),
             decoration: BoxDecoration(
-              color: Colors.white.withOpacity(0.2),
+              color: Colors.white.withValues(alpha: 51),
               borderRadius: BorderRadius.circular(12),
             ),
             child: IconButton(
-              icon: const Icon(Icons.analytics, color: Colors.white),
+              icon: const Icon(Icons.analytics, color: Colors.blueGrey),
               onPressed: () {
                 Navigator.of(context).push(
                   MaterialPageRoute(
@@ -99,11 +100,11 @@ class _DashboardScreenState extends State<DashboardScreen>
           Container(
             margin: const EdgeInsets.only(right: 8),
             decoration: BoxDecoration(
-              color: Colors.white.withOpacity(0.2),
+              color: Colors.white.withValues(alpha: 51),
               borderRadius: BorderRadius.circular(12),
             ),
             child: IconButton(
-              icon: const Icon(Icons.account_balance, color: Colors.white),
+              icon: const Icon(Icons.account_balance, color: Colors.blueGrey),
               onPressed: () {
                 Navigator.of(context).push(
                   MaterialPageRoute(
@@ -116,11 +117,11 @@ class _DashboardScreenState extends State<DashboardScreen>
           Container(
             margin: const EdgeInsets.only(right: 8),
             decoration: BoxDecoration(
-              color: Colors.white.withOpacity(0.2),
+              color: Colors.white.withValues(alpha: 51),
               borderRadius: BorderRadius.circular(12),
             ),
             child: IconButton(
-              icon: const Icon(Icons.settings, color: Colors.white),
+              icon: const Icon(Icons.settings, color: Colors.blueGrey),
               onPressed: () {
                 Navigator.of(context).push(
                   MaterialPageRoute(
@@ -161,12 +162,12 @@ class _DashboardScreenState extends State<DashboardScreen>
                         Container(
                           padding: const EdgeInsets.all(12),
                           decoration: BoxDecoration(
-                            color: Colors.white.withOpacity(0.2),
+                            color: Colors.white.withValues(alpha: 51),
                             borderRadius: BorderRadius.circular(16),
                           ),
                           child: const Icon(
                             Icons.waving_hand,
-                            color: Colors.white,
+                            color: Colors.yellow,
                             size: 28,
                           ),
                         ),
@@ -179,7 +180,7 @@ class _DashboardScreenState extends State<DashboardScreen>
                                 'Welcome back!',
                                 style: TextStyle(
                                   fontSize: 16,
-                                  color: Colors.white.withOpacity(0.8),
+                                  color: Colors.white.withValues(alpha: 204),
                                   fontWeight: FontWeight.w500,
                                 ),
                               ),
@@ -208,10 +209,16 @@ class _DashboardScreenState extends State<DashboardScreen>
                             icon: Icons.account_balance_wallet,
                             gradient: transactionProvider.balance >= 0
                                 ? const LinearGradient(
-                                    colors: [Color(0xFF4CAF50), Color(0xFF66BB6A)],
+                                    colors: [
+                                      Color(0xFF4CAF50),
+                                      Color(0xFF66BB6A),
+                                    ],
                                   )
                                 : const LinearGradient(
-                                    colors: [Color(0xFFF44336), Color(0xFFEF5350)],
+                                    colors: [
+                                      Color(0xFFF44336),
+                                      Color(0xFFEF5350),
+                                    ],
                                   ),
                             isAnimated: true,
                           ),
@@ -252,46 +259,58 @@ class _DashboardScreenState extends State<DashboardScreen>
                     // Quick Actions
                     ProfessionalCard(
                       title: 'Quick Actions',
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          _buildQuickActionButton(
-                            context,
-                            'Add Income',
-                            Icons.add_circle,
-                            Colors.green,
-                            () => _addTransaction(context, TransactionType.income),
-                          ),
-                          _buildQuickActionButton(
-                            context,
-                            'Add Expense',
-                            Icons.remove_circle,
-                            Colors.red,
-                            () => _addTransaction(context, TransactionType.expense),
-                          ),
-                          _buildQuickActionButton(
-                            context,
-                            'View All',
-                            Icons.list,
-                            Colors.blue,
-                            () => Navigator.of(context).push(
-                              MaterialPageRoute(
-                                builder: (context) => const TransactionsScreen(),
+                      child: SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: Row(
+                          children: [
+                            _buildQuickActionButton(
+                              context,
+                              'Add Income',
+                              Icons.add_circle,
+                              Colors.green,
+                              () => _addTransaction(
+                                context,
+                                TransactionType.income,
                               ),
                             ),
-                          ),
-                          _buildQuickActionButton(
-                            context,
-                            'Analytics',
-                            Icons.analytics,
-                            Colors.purple,
-                            () => Navigator.of(context).push(
-                              MaterialPageRoute(
-                                builder: (context) => const AnalyticsScreen(),
+                            const SizedBox(width: 12),
+                            _buildQuickActionButton(
+                              context,
+                              'Add Expense',
+                              Icons.remove_circle,
+                              Colors.red,
+                              () => _addTransaction(
+                                context,
+                                TransactionType.expense,
                               ),
                             ),
-                          ),
-                        ],
+                            const SizedBox(width: 12),
+                            _buildQuickActionButton(
+                              context,
+                              'View All',
+                              Icons.list,
+                              Colors.blue,
+                              () => Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (context) =>
+                                      const TransactionsScreen(),
+                                ),
+                              ),
+                            ),
+                            const SizedBox(width: 12),
+                            _buildQuickActionButton(
+                              context,
+                              'Analytics',
+                              Icons.analytics,
+                              Colors.purple,
+                              () => Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (context) => const AnalyticsScreen(),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
 
@@ -314,7 +333,8 @@ class _DashboardScreenState extends State<DashboardScreen>
                           onPressed: () {
                             Navigator.of(context).push(
                               MaterialPageRoute(
-                                builder: (context) => const TransactionsScreen(),
+                                builder: (context) =>
+                                    const TransactionsScreen(),
                               ),
                             );
                           },
@@ -334,7 +354,9 @@ class _DashboardScreenState extends State<DashboardScreen>
                     if (transactionProvider.isLoading)
                       const Center(
                         child: CircularProgressIndicator(
-                          valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                          valueColor: AlwaysStoppedAnimation<Color>(
+                            Colors.white,
+                          ),
                         ),
                       )
                     else if (_recentTransactions.isEmpty)
@@ -346,14 +368,14 @@ class _DashboardScreenState extends State<DashboardScreen>
                               Icon(
                                 Icons.receipt_long,
                                 size: 64,
-                                color: Colors.white.withOpacity(0.5),
+                                color: Colors.white.withValues(alpha: 128),
                               ),
                               const SizedBox(height: 16),
                               Text(
                                 'No transactions yet',
                                 style: TextStyle(
                                   fontSize: 18,
-                                  color: Colors.white.withOpacity(0.7),
+                                  color: Colors.white.withValues(alpha: 179),
                                   fontWeight: FontWeight.w500,
                                 ),
                               ),
@@ -362,7 +384,7 @@ class _DashboardScreenState extends State<DashboardScreen>
                                 'Start by adding your first transaction',
                                 style: TextStyle(
                                   fontSize: 14,
-                                  color: Colors.white.withOpacity(0.5),
+                                  color: Colors.white.withValues(alpha: 128),
                                 ),
                               ),
                             ],
@@ -380,13 +402,17 @@ class _DashboardScreenState extends State<DashboardScreen>
                             child: TransactionCard(
                               transaction: _recentTransactions[index],
                               onTap: () {
-                                Navigator.of(context).push(
-                                  MaterialPageRoute(
-                                    builder: (context) => AddTransactionScreen(
-                                      transaction: _recentTransactions[index],
-                                    ),
-                                  ),
-                                ).then((_) => _loadData());
+                                Navigator.of(context)
+                                    .push(
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            AddTransactionScreen(
+                                              transaction:
+                                                  _recentTransactions[index],
+                                            ),
+                                      ),
+                                    )
+                                    .then((_) => _loadData());
                               },
                             ),
                           );
@@ -409,7 +435,7 @@ class _DashboardScreenState extends State<DashboardScreen>
           borderRadius: BorderRadius.circular(16),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.3),
+              color: Colors.black.withValues(alpha: 77),
               blurRadius: 8,
               offset: const Offset(0, 4),
             ),
@@ -417,11 +443,13 @@ class _DashboardScreenState extends State<DashboardScreen>
         ),
         child: FloatingActionButton(
           onPressed: () {
-            Navigator.of(context).push(
-              MaterialPageRoute(
-                builder: (context) => const AddTransactionScreen(),
-              ),
-            ).then((_) => _loadData());
+            Navigator.of(context)
+                .push(
+                  MaterialPageRoute(
+                    builder: (context) => const AddTransactionScreen(),
+                  ),
+                )
+                .then((_) => _loadData());
           },
           backgroundColor: Colors.transparent,
           elevation: 0,
@@ -442,22 +470,27 @@ class _DashboardScreenState extends State<DashboardScreen>
       onTap: onPressed,
       borderRadius: BorderRadius.circular(12),
       child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
         decoration: BoxDecoration(
-          color: Colors.white.withOpacity(0.1),
+          color: Colors.white.withValues(alpha: 31),
           borderRadius: BorderRadius.circular(12),
+          border: Border.all(
+            color: Colors.white.withValues(alpha: 51),
+            width: 1,
+          ),
         ),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(icon, color: color, size: 28),
-            const SizedBox(height: 4),
+            Icon(icon, color: color, size: 24),
+            const SizedBox(height: 6),
             Text(
               label,
               style: const TextStyle(
-                color: Colors.white,
-                fontSize: 12,
+                color: Colors.black87,
+                fontSize: 11,
                 fontWeight: FontWeight.w600,
+                letterSpacing: 0.3,
               ),
               textAlign: TextAlign.center,
             ),
@@ -468,12 +501,12 @@ class _DashboardScreenState extends State<DashboardScreen>
   }
 
   void _addTransaction(BuildContext context, TransactionType type) {
-    Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (context) => AddTransactionScreen(
-          initialType: type,
-        ),
-      ),
-    ).then((_) => _loadData());
+    Navigator.of(context)
+        .push(
+          MaterialPageRoute(
+            builder: (context) => AddTransactionScreen(initialType: type),
+          ),
+        )
+        .then((_) => _loadData());
   }
 }

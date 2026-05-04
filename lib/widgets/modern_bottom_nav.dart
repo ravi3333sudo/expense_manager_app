@@ -19,7 +19,7 @@ class ModernBottomNav extends StatelessWidget {
         borderRadius: BorderRadius.circular(25),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.15),
+            color: Colors.black.withValues(alpha: 38),
             blurRadius: 20,
             offset: const Offset(0, 10),
           ),
@@ -27,15 +27,18 @@ class ModernBottomNav extends StatelessWidget {
       ),
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            _buildNavItem(0, Icons.dashboard, 'Dashboard'),
-            _buildNavItem(1, Icons.receipt_long, 'Transactions'),
-            _buildNavItem(2, Icons.bar_chart, 'Analytics'),
-            _buildNavItem(3, Icons.account_balance, 'Budget'),
-            _buildNavItem(4, Icons.settings, 'Settings'),
-          ],
+        child: SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              _buildNavItem(0, Icons.dashboard, 'Dashboard'),
+              _buildNavItem(1, Icons.receipt_long, 'Transactions'),
+              _buildNavItem(2, Icons.bar_chart, 'Analytics'),
+              _buildNavItem(3, Icons.account_balance, 'Budget'),
+              _buildNavItem(4, Icons.settings, 'Settings'),
+            ],
+          ),
         ),
       ),
     );

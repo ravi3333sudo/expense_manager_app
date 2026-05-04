@@ -146,7 +146,7 @@ class TransactionProvider with ChangeNotifier {
     }
   }
 
-  // Clear error state
+
   void clearError() {
     _error = null;
     notifyListeners();

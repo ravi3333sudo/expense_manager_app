@@ -51,10 +51,8 @@ class BudgetRepositoryImpl implements BudgetRepository {
 
   @override
   Future<double> getBudgetSpent(String category, DateTime start, DateTime end) async {
-    // This would need to be implemented with a more complex query in the database
-    // For now, we'll use the transaction repository to get expenses
-    // In a real implementation, this could be optimized with a direct query
-    return 0.0; // Placeholder - would need transaction repository access
+
+    return 0.0; 
   }
 
   @override
